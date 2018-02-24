@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description" content="CS61A: Structure and Interpretation of Computer Programs">
+    <meta name="keywords" content="CS61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS">
+    <meta name="author" content="John DeNero, Albert Chen, Anna (Zhining) Zhu, Cale Horeff, Christopher Le, Colin Schoen, David Harrison, Emily Tsai, Eric Bo, Eric Nelson, Eric Pai, Eurie Oh, Garrett Tan, Giorgia Willits, Haojun Li, Jack Thakar, James Uejio, Jerry Chen, Jongmin Baek, Jordon Wing, Katya Stukalova, Kavi Gupta, Kelly Liu, Kevin Chen, Kevin Lin, Kunal Munshani, Kyle Liang, Kyle Raftogianis, Manas Agrawal, Michael Dong, Michelle Tian, Mitas Ray, Nicole Rasquinha, Owen Jow, Peter Xu, Raymond Chan, Richard Liang, Rohit Lalchandani, Ryan Chang, Samantha Wathugala, Samantha Wong, Shea Conlon, Soumik Biswas, Stanfield Chu, Sydney McMuldroch, Tammy Nguyen, Tim Greeno, Vivian Fang, Zhen Qin">
+    
+    <meta name="viewport" content="width=device-width">
+
+    <script src="./Lab 09_ Scheme _ CS 61A Fall 2016_files/jquery.min.js"></script>
+    <script src="./Lab 09_ Scheme _ CS 61A Fall 2016_files/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="./Lab 09_ Scheme _ CS 61A Fall 2016_files/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./Lab 09_ Scheme _ CS 61A Fall 2016_files/style.css">
+    <link rel="icon" href="https://inst.eecs.berkeley.edu/~cs61a/fa16/assets/images/favicon.ico">
+
+    <link rel="stylesheet" href="./Lab 09_ Scheme _ CS 61A Fall 2016_files/mono-blue.css">
+    <script src="./Lab 09_ Scheme _ CS 61A Fall 2016_files/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+
+
+<link rel="stylesheet" type="text/css" href="./Lab 09_ Scheme _ CS 61A Fall 2016_files/resource.css">
+
+<link rel="stylesheet" type="text/css" href="./Lab 09_ Scheme _ CS 61A Fall 2016_files/lab.css">
+
+
+    <title>
+Lab 09: Scheme | CS 61A Fall 2016
+</title>
+
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="https://inst.eecs.berkeley.edu/~cs61a/fa16/">CS 61A</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/articles/about.html">Syllabus</a></li>
+            <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/articles/resources.html">Resources</a></li>
+            <li><a href="https://piazza.com/berkeley/fall2016/cs61a">Piazza</a></li>
+            <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/office-hours.html">Office Hours</a></li>
+            <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/weekly.html">Weekly Schedule</a></li>
+            <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/staff.html">Staff</a></li>
+            <!--- <li><a href="/~cs61a/fa16/articles/using-ok.html">Using OK</a></li> -->
+            <!-- Not used, but leaving these for the future. -->
+            <!--- <li><a href="https://inst.eecs.berkeley.edu/~cs61a/admin-sp16/cgi-bin/calnet-auth.cgi">Account Login</a></li> -->
+            <!---
+            <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Course Info <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/~cs61a/fa16/articles/resources.html">Resources</a></li>
+              <li><a href="/~cs61a/fa16/staff.html">Staff</a></li>
+              <li><a href="/~cs61a/fa16/weekly.html">Weekly Schedule</a></li>
+            </ul>
+            </li>
+            -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div id="content" class="container">
+      
+
+<div class="row">
+  <div class="col-md-9">
+    <div class="page-header">
+      <h1>
+<span class="content-title-brand">Lab 09</span>: Scheme
+</h1>
+    </div>
+
+    
+
+<p><i>Due at 11:59pm on Friday, 10/28/2016.</i></p>
+
+
+<h2 id="starter-files">Starter Files</h2>
+
+
+<p>Download <a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/lab09.zip">lab09.zip</a>.
+Inside the archive, you will find starter files for the questions in this lab,
+  along with a copy of the <a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/ok">OK</a> autograder.</p>
+
+
+<h2 id="submission">Submission</h2>
+
+<p>By the end of this lab, you should have submitted the lab with
+<code>python3 ok --submit</code>. You may submit more than once before the
+deadline; only the final submission will be graded.</p>
+
+<ul>
+  <li>To receive credit for this lab, you must complete Question 1 and Questions 2 through 4 in
+  <a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/lab09.scm">lab09.scm</a> and submit through OK.</li>
+  <li>Questions 5 through 10 are <em>extra practice</em>. They can be found in the
+  <a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/lab09_extra.scm">lab09_extra.scm</a> file. It is recommended that you
+  complete these problems on your own time.</li>
+</ul>
+
+
+
+
+    
+<h1 id="topics">Topics</h1>
+
+
+
+<h2 id="scheme">Scheme</h2>
+
+<p>Scheme is a famous functional programming language from the 1970s.  It
+is a dialect of Lisp (which stands for LISt Processing).  The first
+observation most people make is the unique syntax, which uses
+a prefix notation and (often many) nested parentheses.  (See
+<a href="http://xkcd.com/297/">http://xkcd.com/297/</a>).
+Scheme features first-class functions and optimized tail-recursion,
+which were relatively new features at the time.</p>
+
+<blockquote><p>Our course uses a custom version of Scheme (which you will build for Project
+4) included in the starter ZIP archive. To start the interpreter, type
+<code>python3 scheme</code>. To run a Scheme program interactively, type <code>python3 scheme
+-i &lt;file.scm&gt;</code>. To exit the Scheme interpreter, type <code>(exit)</code>.</p></blockquote>
+
+<p>One of the TA's, Jack Thakar, has written an online Scheme interpreter that can
+also draw environment diagrams and box-and-pointer diagrams, or debug your code
+by step-by-step. It's available at
+<a href="http://scheme.cs61a.org/">scheme.cs61a.org</a>. Don't forget to submit your code
+through OK though!</p>
+
+
+<h2 id="control-structures">Control Structures</h2>
+
+
+
+<h3 id="if-expressions">If Expressions</h3>
+
+<p>Let's introduce control expressions to allow our procedures to do more complex operations! The if-expression has the following format:</p>
+
+<pre><code class="hljs xml">(if <span class="hljs-tag">&lt;<span class="hljs-title">condition</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">true_result</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">false_result</span>&gt;</span>)</code></pre>
+
+<p>For example, the following code written in Scheme and Python are
+equivalent:</p>
+
+<table class="table table-bordered">
+  <tbody><tr>
+    <th>Scheme</th>
+    <th>Python</th>
+  </tr>
+  <tr>
+    <td>
+<pre><code class="hljs bash">scm&gt; (<span class="hljs-keyword">if</span> (&gt; x <span class="hljs-number">3</span>)
+         <span class="hljs-number">1</span>
+         <span class="hljs-number">2</span>)</code></pre>
+    </td><td>
+<pre><code class="hljs python"><span class="hljs-prompt">&gt;&gt;&gt; </span><span class="hljs-keyword">if</span> x &gt; <span class="hljs-number">3</span>:
+<span class="hljs-prompt">... </span>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>
+<span class="hljs-prompt">... </span><span class="hljs-keyword">else</span>:
+<span class="hljs-prompt">... </span>    <span class="hljs-keyword">return</span> <span class="hljs-number">2</span></code></pre>
+    </td>
+  </tr>
+</tbody></table>
+
+<p>In Scheme, you cannot write <code>elif</code> cases. If want to have multiple cases with the if-expression, you would need multiple branched if-expressions:</p>
+
+<table class="table table-bordered">
+  <tbody><tr>
+    <th>Scheme</th>
+    <th>Python</th>
+  </tr>
+  <tr>
+    <td>
+<pre><code class="hljs bash">scm&gt; (<span class="hljs-keyword">if</span> (&lt; x <span class="hljs-number">0</span>)
+         <span class="hljs-string">'negative       ; returns the symbol negative
+         (if (= x 0)
+             '</span>zero       ; returns the symbol zero
+             <span class="hljs-string">'positive   ; returns the symbol positive
+         )
+ )</span></code></pre>
+    </td><td>
+<pre><code class="hljs python"><span class="hljs-prompt">&gt;&gt;&gt; </span><span class="hljs-keyword">if</span> x &lt; <span class="hljs-number">0</span>:
+<span class="hljs-prompt">... </span>    print(<span class="hljs-string">'negative'</span>)
+<span class="hljs-prompt">... </span><span class="hljs-keyword">else</span>:
+<span class="hljs-prompt">... </span>    <span class="hljs-keyword">if</span> x == <span class="hljs-number">0</span>:
+<span class="hljs-prompt">... </span>        print(<span class="hljs-string">'zero'</span>)
+<span class="hljs-prompt">... </span>    <span class="hljs-keyword">else</span>:
+<span class="hljs-prompt">... </span>        print(<span class="hljs-string">'positive'</span>)</code></pre>
+  </td></tr>
+</tbody></table>
+
+
+<h3 id="cond-expressions">Cond Expressions</h3>
+
+<p>Using nested if-expression doesn't seem like a very practical way to take care of multiple cases. Instead, we can use the <code>cond</code> special form, a general conditional expression similar to a multi-clause conditional expression in Python.</p>
+
+<pre><code class="hljs scheme"><span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cond</span></span>
+    <span class="hljs-list">(<span class="hljs-keyword">&lt;p1&gt;</span> &lt;e1&gt;)</span>
+    <span class="hljs-list">(<span class="hljs-keyword">&lt;p2&gt;</span> &lt;e2&gt;)</span>
+    ...
+    <span class="hljs-list">(<span class="hljs-keyword">&lt;pn&gt;</span> &lt;en&gt;)</span>
+    <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">else</span></span> &lt;else-expression&gt;)</span>)</span></code></pre>
+
+<p>It consists of the symbol <code>cond</code> followed by pairs of expressions enclosed in parentheses <code>(&lt;p&gt; &lt;e&gt;)</code> called clauses. The first expression in each pair is a <strong>predicate</strong>: an expression whose value is interpreted as either <code>True</code> or <code>False</code>. The second expression is the return expression corresponding to its predicate.</p>
+
+<p>The following code is equivalent:</p>
+
+<table class="table table-bordered">
+  <tbody><tr>
+    <th>Scheme</th>
+    <th>Python</th>
+  </tr>
+  <tr>
+    <td>
+<pre><code class="hljs bash">scm&gt; (cond
+        ((&gt; x <span class="hljs-number">0</span>) <span class="hljs-string">'positive)
+        ((&lt; x 0) '</span>negative)
+        (<span class="hljs-keyword">else</span> <span class="hljs-string">'zero))</span></code></pre>
+    </td><td>
+<pre><code class="hljs python"><span class="hljs-prompt">&gt;&gt;&gt; </span><span class="hljs-keyword">if</span> x &gt; <span class="hljs-number">0</span>:
+<span class="hljs-prompt">... </span>    print(<span class="hljs-string">'positive'</span>)
+<span class="hljs-prompt">... </span><span class="hljs-keyword">elif</span> x &lt; <span class="hljs-number">0</span>:
+<span class="hljs-prompt">... </span>    print(<span class="hljs-string">'negative'</span>)
+<span class="hljs-prompt">... </span><span class="hljs-keyword">else</span>:
+<span class="hljs-prompt">... </span>    print(<span class="hljs-string">'zero'</span>)</code></pre>
+  </td></tr>
+</tbody></table>
+
+
+<h2 id="lists">Lists</h2>
+
+
+<h3 id="scheme-pairs">Scheme Pairs</h3>
+
+<p>Scheme lists are very similar to the linked lists we've been working with in
+Python. Scheme lists are made up of pairs, which can point to two objects. To
+create a pair, we use the <code>cons</code> procedure, which takes in two arguments:</p>
+
+<pre><code class="hljs">scm&gt; (define a (cons 3 5))
+a
+scm&gt; a
+(3 . 5)</code></pre>
+
+<p>We can use the <code>car</code> and <code>cdr</code> procedures to retrieve the first and second
+elements in the pair, respectively.</p>
+
+<pre><code class="hljs">scm&gt; (car a)
+3
+scm&gt; (cdr a)
+5</code></pre>
+
+<p>Just like linked lists in Python, lists in Scheme are formed by having the
+first element of a pair be the first element of the list, and the second
+element of the pair point to another pair containing the rest of the list. The
+second element of a pair can be <code>nil</code> to signify the end of the list. For
+example, the sequence <code>(1 2 3)</code> can be represented in Scheme with the following
+line:</p>
+
+<pre><code class="hljs">scm&gt; (cons 1 (cons 2 (cons 3 nil)))</code></pre>
+
+<p>which creates the following object in Scheme:</p>
+
+<p><img class="img-responsive center-block" src="./Lab 09_ Scheme _ CS 61A Fall 2016_files/list1.png" alt="linked list"></p>
+
+<p>We can then of course retrieve values from our list with the <code>car</code> and <code>cdr</code>
+procedures. (Curious about where these weird names come from?
+<a href="https://en.wikipedia.org/wiki/CAR_and_CDR">Check out their etymology.</a>)</p>
+
+<pre><code class="hljs">scm&gt; a
+(1 2 3)
+scm&gt; (car a)
+1
+scm&gt; (cdr a)
+(2 3)
+scm&gt; (car (cdr (cdr a)))
+3</code></pre>
+
+
+<h3 id="list"><code>list</code></h3>
+
+<p>There are a few other ways to create lists. We can pass a sequence of
+arguments into the <code>list</code> procedure, which quickly constructs a well-formed list
+(one in which the <code>cdr</code> of every pair is either another pair or <code>nil</code>):</p>
+
+<pre><code class="hljs">scm&gt; (list 1 2 3)
+(1 2 3)</code></pre>
+
+
+<h3 id="quote-form">Quote Form</h3>
+
+<p>We can also use the quote form to create a list, which performs much the same
+functionality as the <code>list</code> procedure. Unlike <code>list</code>, we can use the quote
+form to construct a malformed list. Notice that we can use a dot to separate
+the <code>car</code> and the <code>cdr</code> of a pair, but Scheme will only show us the dot if the
+list is malformed:</p>
+
+<pre><code class="hljs bash">scm&gt; <span class="hljs-string">'(1 2 3)
+(1 2 3)
+scm&gt; '</span>(<span class="hljs-number">1</span> . (<span class="hljs-number">2</span> . (<span class="hljs-number">3</span>)))
+(<span class="hljs-number">1</span> <span class="hljs-number">2</span> <span class="hljs-number">3</span>)
+scm&gt; <span class="hljs-string">'(1 . (2 . 3))
+(1 2 . 3)</span></code></pre>
+
+
+<h3 id="built-in-procedures-for-lists">Built-In Procedures for Lists</h3>
+
+<p>There are a few other built-in procedures in Scheme that are used for lists. Try
+them out!</p>
+
+<pre><code class="hljs markdown">scm&gt; (null? nil)
+<div class="alt prompt-1"><span class="hljs-strong">_____</span>_</div><div class="solution prompt-1">True</div>
+scm&gt; (append '(1 2 3) '(4 5 6))
+<div class="alt prompt-1"><span class="hljs-strong">_____</span>_</div><div class="solution prompt-1">(1 2 3 4 5 6)</div>
+scm&gt; (cons '(1 2 3) '(4 5 6))
+<div class="alt prompt-1"><span class="hljs-strong">_____</span>_</div><div class="solution prompt-1">((1 2 3) 4 5 6)</div>
+scm&gt; (list '(1 2 3) '(4 5 6))
+<div class="alt prompt-1"><span class="hljs-strong">_____</span>_</div><div class="solution prompt-1">((1 2 3) (4 5 6))</div>
+scm&gt; (length '(1 2 3 4 5))
+<div class="alt prompt-1"><span class="hljs-strong">_____</span>_</div><div class="solution prompt-1">5</div></code></pre>
+        <button id="prompt-1" class="toggleButton prompt" style="display: inline-block;">
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+
+<h2 id="lambdas">Lambdas</h2>
+
+<p>Ah yes, you thought you were safe, but we can also write <code>lambda</code>
+procedures in Scheme!</p>
+
+<p>As noted above, the syntax for defining a procedure in Scheme is:</p>
+
+<pre><code class="hljs scheme"><span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">define</span></span> <span class="hljs-list">(<span class="hljs-keyword">&lt;name&gt;</span> &lt;params&gt;)</span>
+        &lt;body&gt;
+)</span></code></pre>
+
+<p>Defining a <code>lambda</code> has a slightly different syntax, as follows:</p>
+
+<pre><code class="hljs scheme"><span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">lambda</span></span> <span class="hljs-list">(<span class="hljs-keyword">&lt;params&gt;</span>)</span>
+        &lt;body&gt;
+)</span></code></pre>
+
+<p>Notice how the only difference is the lack of procedure name.  You can
+create and call a lambda procedure in Scheme as follows:</p>
+
+<pre><code class="hljs scheme"><span class="hljs-comment">; defining a lambda</span>
+<span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">lambda</span></span> <span class="hljs-list">(<span class="hljs-keyword">x</span>)</span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">+</span></span> x <span class="hljs-number">3</span>)</span>)</span>
+<span class="hljs-comment">; calling a lambda</span>
+<span class="hljs-list">(<span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">lambda</span></span> <span class="hljs-list">(<span class="hljs-keyword">x</span>)</span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">+</span></span> x <span class="hljs-number">3</span>)</span>)</span> <span class="hljs-number">7</span>)</span></code></pre>
+
+
+<h1 id="required-questions">Required Questions</h1>
+
+
+
+<h2 id="what-would-scheme-display">What Would Scheme Display?</h2>
+
+
+<h3 class="question" id="q1">Question 1: WWSD: Lists</h3>
+
+<blockquote><p>Use OK to test your knowledge with the following "What Would Scheme Display?"
+questions:</p>
+
+<pre><code class="hljs">python3 ok -q wwsp-lists -u</code></pre></blockquote>
+
+
+
+<pre><code class="hljs markdown">scm&gt; (cons 1 2)
+<div class="alt prompt-2"><span class="hljs-strong">_____</span>_</div><div class="solution prompt-2">(1 . 2)</div>
+scm&gt; (cons 1 (cons 2 nil))
+<div class="alt prompt-2"><span class="hljs-strong">_____</span>_</div><div class="solution prompt-2">(1 2)</div>
+scm&gt; (car (cons 1 (cons 2 nil)))
+<div class="alt prompt-2"><span class="hljs-strong">_____</span>_</div><div class="solution prompt-2">1</div>
+scm&gt; (cdr (cons 1 (cons 2 nil)))
+<div class="alt prompt-2"><span class="hljs-strong">_____</span>_</div><div class="solution prompt-2">(2)</div>
+scm&gt; (list 1 2 3)
+<div class="alt prompt-2"><span class="hljs-strong">_____</span>_</div><div class="solution prompt-2">(1 2 3)</div>
+scm&gt; (list 1 (cons 2 3))
+<div class="alt prompt-2"><span class="hljs-strong">_____</span>_</div><div class="solution prompt-2">(1 (2 . 3))</div>
+scm&gt; '(1 2 3)
+<div class="alt prompt-2"><span class="hljs-strong">_____</span>_</div><div class="solution prompt-2">(1 2 3)</div>
+scm&gt; '(2 . 3)
+<div class="alt prompt-2"><span class="hljs-strong">_____</span>_</div><div class="solution prompt-2">(2 . 3)</div>
+scm&gt; '(2 . (3))  ; Recall dot notation rule
+<div class="alt prompt-2"><span class="hljs-strong">_____</span>_</div><div class="solution prompt-2">(2 3)</div>
+scm&gt; (equal? '(1 . (2 . 3)) (cons 1 (cons 2 (cons 3 nil))))
+<div class="alt prompt-2"><span class="hljs-strong">_____</span>_</div><div class="solution prompt-2">False</div>
+scm&gt; (list 1 2 3)
+<div class="alt prompt-2"><span class="hljs-strong">_____</span>_</div><div class="solution prompt-2">(1 2 3)</div>
+scm&gt; (equal? '(1 . (2 . 3)) (list 1 (cons 2 3)))
+<div class="alt prompt-2"><span class="hljs-strong">_____</span>_</div><div class="solution prompt-2">False</div>
+scm&gt; (cons 1 '(list 2 3))  ; Recall quoting
+<div class="alt prompt-2"><span class="hljs-strong">_____</span>_</div><div class="solution prompt-2">(1 list 2 3)</div></code></pre>
+        <button id="prompt-2" class="toggleButton prompt" style="display: inline-block;">
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<pre><code class="hljs markdown">scm&gt; (cons (list 2 (cons 3 4)) nil)
+<div class="alt prompt-3"><span class="hljs-strong">_____</span>_</div><div class="solution prompt-3">((2 (3 . 4)))</div>
+scm&gt; (car (cdr '(127 . ((131 . (137))))))
+<div class="alt prompt-3"><span class="hljs-strong">_____</span>_</div><div class="solution prompt-3">(131 137)</div>
+scm&gt; (equal? '(1 . ((2 . 3))) (cons 1 (cons (cons 2 3) nil)))
+<div class="alt prompt-3"><span class="hljs-strong">_____</span>_</div><div class="solution prompt-3">True</div>
+scm&gt; '(cons 4 (cons (cons 6 8) ()))
+<div class="alt prompt-3"><span class="hljs-strong">_____</span>_</div><div class="solution prompt-3">(cons 4 (cons (cons 6 8) ()))</div></code></pre>
+        <button id="prompt-3" class="toggleButton prompt" style="display: inline-block;">
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+
+<h2 id="coding-questions">Coding Questions</h2>
+
+
+<h3 class="question" id="q2">Question 2: Over or Under</h3>
+
+<p>Define a procedure <code>over-or-under</code> which takes in an <code>x</code> and a <code>y</code> and
+returns the the following:</p>
+
+<ul>
+  <li>return -1 if <code>x</code> is less than <code>y</code></li>
+  <li>return 0 if <code>x</code> is equal to <code>y</code></li>
+  <li>return 1 if <code>x</code> is greater than <code>y</code></li>
+</ul>
+
+
+
+<pre><code class="hljs scheme"><span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">define</span></span> <span class="hljs-list">(<span class="hljs-keyword">over-or-under</span> x y)</span>
+</span><div class="alt solution-1"><span class="hljs-list">  <span class="hljs-variable">'YOUR-CODE-HERE</span>
+</span></div><div class="solution solution-1"><span class="hljs-list">  <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cond</span></span>
+    <span class="hljs-list">(<span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">&lt;</span></span> x y)</span> <span class="hljs-number">-1</span>)</span>
+    <span class="hljs-list">(<span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">=</span></span> x y)</span> <span class="hljs-number">0</span>)</span>
+    <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">else</span></span> <span class="hljs-number">1</span>)</span>)</span></span></div><span class="hljs-list">)</span>
+
+<span class="hljs-comment">;;; Tests</span>
+<span class="hljs-list">(<span class="hljs-keyword">over-or-under</span> <span class="hljs-number">1</span> <span class="hljs-number">2</span>)</span>
+<span class="hljs-comment">; expect -1</span>
+<span class="hljs-list">(<span class="hljs-keyword">over-or-under</span> <span class="hljs-number">2</span> <span class="hljs-number">1</span>)</span>
+<span class="hljs-comment">; expect 1</span>
+<span class="hljs-list">(<span class="hljs-keyword">over-or-under</span> <span class="hljs-number">1</span> <span class="hljs-number">1</span>)</span>
+<span class="hljs-comment">; expect 0</span></code></pre>
+
+
+        <button id="solution-1" class="toggleButton solution" style="display: inline-block;">
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use OK to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q over-or-under -u
+python3 ok -q over-or-under</code></pre>
+
+<h3 class="question" id="q3">Question 3: Filter</h3>
+
+<p>Write a procedure <code>filter</code>, which takes a predicate <code>f</code> and a list <code>lst</code>, and
+returns a new list containing only elements of the list that satisfy the
+predicate.</p>
+
+
+
+<pre><code class="hljs scheme"><span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">define</span></span> <span class="hljs-list">(<span class="hljs-keyword">filter</span> f lst)</span>
+</span><div class="alt solution-2"><span class="hljs-list">  <span class="hljs-variable">'YOUR-CODE-HERE</span>
+</span></div><div class="solution solution-2"><span class="hljs-list">  <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cond</span></span> <span class="hljs-list">(<span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">null?</span></span> lst)</span> '<span class="hljs-list">()</span>)</span>
+        <span class="hljs-list">(<span class="hljs-list">(<span class="hljs-keyword">f</span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">car</span></span> lst)</span>)</span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cons</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">car</span></span> lst)</span> <span class="hljs-list">(<span class="hljs-keyword">filter</span> f <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cdr</span></span> lst)</span>)</span>)</span>)</span>
+        <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">else</span></span> <span class="hljs-list">(<span class="hljs-keyword">filter</span> f <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cdr</span></span> lst)</span>)</span>)</span>)</span></span></div><span class="hljs-list">)</span>
+
+<span class="hljs-comment">;;; Tests</span>
+<span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">define</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">even?</span></span> x)</span>
+  <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">=</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">modulo</span></span> x <span class="hljs-number">2</span>)</span> <span class="hljs-number">0</span>)</span>)</span>
+<span class="hljs-list">(<span class="hljs-keyword">filter</span> even? '<span class="hljs-list">(<span class="hljs-keyword">0</span> <span class="hljs-number">1</span> <span class="hljs-number">1</span> <span class="hljs-number">2</span> <span class="hljs-number">3</span> <span class="hljs-number">5</span> <span class="hljs-number">8</span>)</span>)</span>
+<span class="hljs-comment">; expect (0 2 8)</span></code></pre>
+
+
+        <button id="solution-2" class="toggleButton solution" style="display: inline-block;">
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use OK to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q filter -u
+python3 ok -q filter</code></pre>
+
+<h3 class="question" id="q4">Question 4: Make Adder</h3>
+
+<p>Write the procedure <code>make-adder</code> which takes in an initial number,
+<code>num</code>, and then returns a procedure. This returned procedure takes in a
+number <code>x</code> and returns the result of <code>x + num</code>.</p>
+
+
+
+<pre><code class="hljs scheme"><span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">define</span></span> <span class="hljs-list">(<span class="hljs-keyword">make-adder</span> num)</span>
+</span><div class="alt solution-3"><span class="hljs-list">  <span class="hljs-variable">'YOUR-CODE-HERE</span>
+</span></div><div class="solution solution-3"><span class="hljs-list">  <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">lambda</span></span> <span class="hljs-list">(<span class="hljs-keyword">x</span>)</span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">+</span></span> x num)</span>)</span></span></div><span class="hljs-list">)</span>
+
+<span class="hljs-comment">;;; Tests</span>
+<span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">define</span></span> adder <span class="hljs-list">(<span class="hljs-keyword">make-adder</span> <span class="hljs-number">5</span>)</span>)</span>
+<span class="hljs-list">(<span class="hljs-keyword">adder</span> <span class="hljs-number">8</span>)</span>
+<span class="hljs-comment">; expect 13</span></code></pre>
+
+
+        <button id="solution-3" class="toggleButton solution" style="display: inline-block;">
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use OK to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q make-adder -u
+python3 ok -q make-adder</code></pre>
+
+
+<h1 id="optional-questions">Optional Questions</h1>
+
+
+<blockquote><p>The following questions are for <strong>extra practice</strong> -- they can be
+found in the the <a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/lab09_extra.scm">lab09_extra.scm</a> file. It is
+recommended that you complete these problems on your own time.</p></blockquote>
+
+<h3 class="question" id="q5">Question 5: Pow</h3>
+
+<p>Implement a procedure <code>pow</code> for raising the number <code>b</code> to the power of a nonnegative integer
+<code>n</code> that runs in Θ(log n) time.</p>
+
+<blockquote><p><em>Hint:</em> Consider the following observations:</p>
+
+<ol>
+  <li>b<sup>2k</sup> = (b<sup>k</sup>)<sup>2</sup></li>
+  <li>b<sup>2k+1</sup> = b(b<sup>k</sup>)<sup>2</sup></li>
+</ol>
+
+<p>You may use the built-in predicates <code>even?</code> and <code>odd?</code>.</p></blockquote>
+
+
+
+<pre><code class="hljs scheme"><span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">define</span></span> <span class="hljs-list">(<span class="hljs-keyword">square</span> x)</span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">*</span></span> x x)</span>)</span>
+
+<span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">define</span></span> <span class="hljs-list">(<span class="hljs-keyword">pow</span> b n)</span>
+</span><div class="alt solution-4"><span class="hljs-list">  <span class="hljs-variable">'YOUR-CODE-HERE</span>
+</span></div><div class="solution solution-4"><span class="hljs-list">  <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cond</span></span> <span class="hljs-list">(<span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">=</span></span> n <span class="hljs-number">0</span>)</span> <span class="hljs-number">1</span>)</span>
+        <span class="hljs-list">(<span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">even?</span></span> n)</span> <span class="hljs-list">(<span class="hljs-keyword">square</span> <span class="hljs-list">(<span class="hljs-keyword">pow</span> b <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">/</span></span> n <span class="hljs-number">2</span>)</span>)</span>)</span>)</span>
+        <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">else</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">*</span></span> b <span class="hljs-list">(<span class="hljs-keyword">pow</span> b <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">-</span></span> n <span class="hljs-number">1</span>)</span>)</span>)</span>)</span>)</span></span></div><span class="hljs-list">)</span></code></pre>
+
+
+        <button id="solution-4" class="toggleButton solution" style="display: inline-block;">
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use OK to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q pow -u
+python3 ok -q pow</code></pre>
+
+<h3 class="question" id="q6">Question 6: Make a List</h3>
+
+<p>Create the list with the following box-and-pointer diagram:</p>
+
+<p><img class="img-responsive center-block" src="./Lab 09_ Scheme _ CS 61A Fall 2016_files/list2.png" alt="linked list"></p>
+
+
+
+<pre><code class="hljs scheme"><span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">define</span></span> lst
+</span><div class="alt solution-5"><span class="hljs-list">  <span class="hljs-variable">'YOUR-CODE-HERE</span>
+</span></div><div class="solution solution-5"><span class="hljs-list">  <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cons</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cons</span></span> <span class="hljs-number">1</span> '<span class="hljs-list">()</span>)</span>
+        <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cons</span></span> <span class="hljs-number">2</span>
+              <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cons</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cons</span></span> <span class="hljs-number">3</span> <span class="hljs-number">4</span>)</span>
+                    <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cons</span></span> <span class="hljs-number">5</span> '<span class="hljs-list">()</span>)</span>)</span>)</span>)</span></span></div><span class="hljs-list">)</span></code></pre>
+
+
+        <button id="solution-5" class="toggleButton solution" style="display: inline-block;">
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use OK to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q make-list -u
+python3 ok -q make-list</code></pre>
+
+<h3 class="question" id="q7">Question 7: Compose</h3>
+
+<p>Write the procedure <code>composed</code>, which takes in procedures <code>f</code> and <code>g</code>
+and outputs a new procedure. This new procedure takes in a number <code>x</code>
+and outputs the result of calling <code>f</code> on <code>g</code> of <code>x</code>.</p>
+
+
+
+<pre><code class="hljs scheme"><span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">define</span></span> <span class="hljs-list">(<span class="hljs-keyword">composed</span> f g)</span>
+</span><div class="alt solution-6"><span class="hljs-list">  <span class="hljs-variable">'YOUR-CODE-HERE</span>
+</span></div><div class="solution solution-6"><span class="hljs-list">  <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">lambda</span></span> <span class="hljs-list">(<span class="hljs-keyword">x</span>)</span> <span class="hljs-list">(<span class="hljs-keyword">f</span> <span class="hljs-list">(<span class="hljs-keyword">g</span> x)</span>)</span>)</span></span></div><span class="hljs-list">)</span></code></pre>
+
+
+        <button id="solution-6" class="toggleButton solution" style="display: inline-block;">
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use OK to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q composed -u
+python3 ok -q composed</code></pre>
+
+<h3 class="question" id="q8">Question 8: Remove</h3>
+
+<p>Implement a procedure <code>remove</code> that takes in a list and returns a new list with
+<em>all</em> instances of <code>item</code> removed from <code>lst</code>. You may assume the list will only
+consists of numbers and will not have nested lists.</p>
+
+<p><em>Hint</em>: You might find the <code>filter</code> procedure useful.</p>
+
+
+
+<pre><code class="hljs scheme"><span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">define</span></span> <span class="hljs-list">(<span class="hljs-keyword">remove</span> item lst)</span>
+</span><div class="alt solution-7"><span class="hljs-list">  <span class="hljs-variable">'YOUR-CODE-HERE</span>
+</span></div><div class="solution solution-7"><span class="hljs-list">  <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cond</span></span> <span class="hljs-list">(<span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">null?</span></span> lst)</span> '<span class="hljs-list">()</span>)</span>
+        <span class="hljs-list">(<span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">equal?</span></span> item <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">car</span></span> lst)</span>)</span> <span class="hljs-list">(<span class="hljs-keyword">remove</span> item <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cdr</span></span> lst)</span>)</span>)</span>
+        <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">else</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cons</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">car</span></span> lst)</span> <span class="hljs-list">(<span class="hljs-keyword">remove</span> item <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cdr</span></span> lst)</span>)</span>)</span>)</span>)</span></span></div><span class="hljs-list">)</span>
+
+<div class="solution solution-7"><span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">define</span></span> <span class="hljs-list">(<span class="hljs-keyword">remove</span> item lst)</span>
+  <span class="hljs-list">(<span class="hljs-keyword">filter</span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">lambda</span></span> <span class="hljs-list">(<span class="hljs-keyword">x</span>)</span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">not</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">=</span></span> x item)</span>)</span>)</span> lst)</span>)</span></div>
+<span class="hljs-comment">;;; Tests</span>
+<span class="hljs-list">(<span class="hljs-keyword">remove</span> <span class="hljs-number">3</span> nil)</span>
+<span class="hljs-comment">; expect ()</span>
+<span class="hljs-list">(<span class="hljs-keyword">remove</span> <span class="hljs-number">3</span> '<span class="hljs-list">(<span class="hljs-keyword">1</span> <span class="hljs-number">3</span> <span class="hljs-number">5</span>)</span>)</span>
+<span class="hljs-comment">; expect (1 5)</span>
+<span class="hljs-list">(<span class="hljs-keyword">remove</span> <span class="hljs-number">5</span> '<span class="hljs-list">(<span class="hljs-keyword">5</span> <span class="hljs-number">3</span> <span class="hljs-number">5</span> <span class="hljs-number">5</span> <span class="hljs-number">1</span> <span class="hljs-number">4</span> <span class="hljs-number">5</span> <span class="hljs-number">4</span>)</span>)</span>
+<span class="hljs-comment">; expect (3 1 4 4)</span></code></pre>
+
+
+        <button id="solution-7" class="toggleButton solution" style="display: inline-block;">
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use OK to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q remove -u
+python3 ok -q remove</code></pre>
+
+<h3 class="question" id="q9">Question 9: Greatest Common Divisor</h3>
+
+<p>Let's revisit a familiar problem: finding the greatest common divisor
+of two numbers.</p>
+
+<p>Write the procedure <code>gcd</code>, which computes the gcd of numbers <code>a</code> and <code>b</code>.
+Recall that the <em>greatest common divisor</em> of two positive integers <code>a</code> and <code>b</code>
+is the largest integer which evenly divides both numbers (with no remainder).
+<a href="http://en.wikipedia.org/wiki/Euclidean_algorithm#Description">Euclid's
+algorithm</a> states
+that the greatest common divisor is</p>
+
+<ul>
+  <li>the smaller value if it evenly divides the larger value, OR</li>
+  <li>the greatest common divisor of the smaller value and the remainder of
+  the larger value divided by the smaller value</li>
+</ul>
+
+<p>In other words, if <code>a</code> is greater than <code>b</code> and <code>a</code> is not divisible by
+<code>b</code>, then</p>
+
+<pre><code class="hljs">gcd(a, b) == gcd(b, a % b)</code></pre>
+
+<p>You may find the provided procedures <code>min</code> and <code>max</code> helpful. You can
+also use the built-in <code>modulo</code> procedure.</p>
+
+
+
+<pre><code class="hljs scheme"><span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">define</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">max</span></span> a b)</span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">if</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">&gt;</span></span> a b)</span> a b)</span>)</span>
+<span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">define</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">min</span></span> a b)</span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">if</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">&gt;</span></span> a b)</span> b a)</span>)</span>
+<span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">define</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">gcd</span></span> a b)</span>
+</span><div class="alt solution-8"><span class="hljs-list">  <span class="hljs-variable">'YOUR-CODE-HERE</span>
+</span></div><div class="solution solution-8"><span class="hljs-list">  <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cond</span></span> <span class="hljs-list">(<span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">zero?</span></span> a)</span> b)</span>
+        <span class="hljs-list">(<span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">zero?</span></span> b)</span> a)</span>
+        <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">else</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">gcd</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">min</span></span> a b)</span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">modulo</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">max</span></span> a b)</span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">min</span></span> a b)</span>)</span>)</span>)</span>)</span></span></div><span class="hljs-list">)</span>
+
+<span class="hljs-comment">;;; Tests</span>
+<span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">gcd</span></span> <span class="hljs-number">24</span> <span class="hljs-number">60</span>)</span>
+<span class="hljs-comment">; expect 12</span>
+<span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">gcd</span></span> <span class="hljs-number">1071</span> <span class="hljs-number">462</span>)</span>
+<span class="hljs-comment">; expect 21</span></code></pre>
+
+
+        <button id="solution-8" class="toggleButton solution" style="display: inline-block;">
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use OK to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q gcd -u
+python3 ok -q gcd</code></pre>
+
+<h3 class="question" id="q10">Question 10: No Repeats</h3>
+
+<p>Implement <code>no-repeats</code>, which takes a list of numbers <code>s</code> as input and returns
+a list that has all of the unique elements of <code>s</code> in the order that they first
+appear, but no repeats. For example, <code>(no-repeats (list 5 4 5 4 2 2))</code>
+evaluates to <code>(5 4 2)</code>.</p>
+
+<p><em>Hints</em>: To test if two numbers are equal, use the <code>=</code> procedure. To test if
+two numbers are not equal, use the <code>not</code> procedure in combination with <code>=</code>.
+You may find it helpful to implement the <code>filter</code> procedure, which takes in a
+predicate and a list and returns a new list containing only elements of the
+list that satisfy the predicate.</p>
+
+
+
+<pre><code class="hljs scheme"><span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">define</span></span> <span class="hljs-list">(<span class="hljs-keyword">no-repeats</span> s)</span>
+</span><div class="alt solution-9"><span class="hljs-list">  <span class="hljs-variable">'YOUR-CODE-HERE</span>
+</span></div><div class="solution solution-9"><span class="hljs-list">  <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">if</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">null?</span></span> s)</span> s
+    <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cons</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">car</span></span> s)</span>
+      <span class="hljs-list">(<span class="hljs-keyword">no-repeats</span> <span class="hljs-list">(<span class="hljs-keyword">filter</span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">lambda</span></span> <span class="hljs-list">(<span class="hljs-keyword">x</span>)</span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">not</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">=</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">car</span></span> s)</span> x)</span>)</span>)</span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cdr</span></span> s)</span>)</span>)</span>)</span>)</span></span></div><span class="hljs-list">)</span></code></pre>
+
+
+        <button id="solution-9" class="toggleButton solution" style="display: inline-block;">
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use OK to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q no-repeats -u
+python3 ok -q no-repeats</code></pre>
+
+<h3 class="question" id="q11">Question 11: Substitute</h3>
+
+<p>Write a procedure <code>substitute</code> that takes three arguments: a list <code>s</code>, an <code>old</code>
+word, and a <code>new</code> word. It returns a list with the elements of <code>s</code>, but with
+every occurrence of <code>old</code> replaced by <code>new</code>, even within sub-lists.</p>
+
+<p><em>Hint</em>: The built-in <code>pair?</code> predicate returns True if its argument is a <code>cons</code>
+pair.</p>
+
+
+
+<pre><code class="hljs scheme"><span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">define</span></span> <span class="hljs-list">(<span class="hljs-keyword">substitute</span> s old new)</span>
+</span><div class="alt solution-10"><span class="hljs-list">  <span class="hljs-variable">'YOUR-CODE-HERE</span>
+</span></div><div class="solution solution-10"><span class="hljs-list">  <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cond</span></span> <span class="hljs-list">(<span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">null?</span></span> s)</span> nil)</span>
+        <span class="hljs-list">(<span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">pair?</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">car</span></span> s)</span>)</span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cons</span></span> <span class="hljs-list">(<span class="hljs-keyword">substitute</span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">car</span></span> s)</span> old new)</span>
+                               <span class="hljs-list">(<span class="hljs-keyword">substitute</span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cdr</span></span> s)</span> old new)</span>)</span>)</span>
+        <span class="hljs-list">(<span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">equal?</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">car</span></span> s)</span> old)</span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cons</span></span> new
+                               <span class="hljs-list">(<span class="hljs-keyword">substitute</span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cdr</span></span> s)</span> old new)</span>)</span>)</span>
+        <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">else</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cons</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">car</span></span> s)</span> <span class="hljs-list">(<span class="hljs-keyword">substitute</span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cdr</span></span> s)</span> old new)</span>)</span>)</span>)</span></span></div><span class="hljs-list">)</span></code></pre>
+
+
+        <button id="solution-10" class="toggleButton solution" style="display: inline-block;">
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use OK to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q substitute -u
+python3 ok -q substitute</code></pre>
+
+<h3 class="question" id="q12">Question 12: Sub All</h3>
+
+<p>Write <code>sub-all</code>, which takes a list <code>s</code>, a list of <code>old</code> words, and a
+list of <code>new</code> words; the last two lists must be the same length. It returns a
+list with the elements of <code>s</code>, but with each word that occurs in the second
+argument replaced by the corresponding word of the third argument.</p>
+
+
+
+<pre><code class="hljs scheme"><span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">define</span></span> <span class="hljs-list">(<span class="hljs-keyword">sub-all</span> s olds news)</span>
+</span><div class="alt solution-11"><span class="hljs-list">  <span class="hljs-variable">'YOUR-CODE-HERE</span>
+</span></div><div class="solution solution-11"><span class="hljs-list">  <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">if</span></span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">null?</span></span> olds)</span>
+    s
+    <span class="hljs-list">(<span class="hljs-keyword">sub-all</span> <span class="hljs-list">(<span class="hljs-keyword">substitute</span> s <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">car</span></span> olds)</span> <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">car</span></span> news)</span>)</span>
+                     <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cdr</span></span> olds)</span>
+                     <span class="hljs-list">(<span class="hljs-keyword"><span class="hljs-built_in">cdr</span></span> news)</span>)</span>)</span></span></div><span class="hljs-list">)</span></code></pre>
+
+
+        <button id="solution-11" class="toggleButton solution" style="display: inline-block;">
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<p>Use OK to unlock and test your code:</p><pre><code class="nohighlight">python3 ok -q sub-all -u
+python3 ok -q sub-all</code></pre>
+
+  </div>
+
+  <div class="col-md-3">
+    <nav class="hidden-print hidden-sm hidden-xs sidebar">
+      <ul class="nav nav-stacked">
+  <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#topics">Topics</a></li>
+  <ul class="nav nav-stacked">
+    <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#scheme">Scheme</a></li>
+    <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#control-structures">Control Structures</a></li>
+    <ul class="nav nav-stacked">
+      <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#if-expressions">If Expressions</a></li>
+      <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#cond-expressions">Cond Expressions</a></li>
+    </ul>
+    <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#lists">Lists</a></li>
+    <ul class="nav nav-stacked">
+      <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#scheme-pairs">Scheme Pairs</a></li>
+      <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#list"><code>list</code></a></li>
+      <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#quote-form">Quote Form</a></li>
+      <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#built-in-procedures-for-lists">Built-In Procedures for Lists</a></li>
+    </ul>
+    <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#lambdas">Lambdas</a></li>
+  </ul>
+  <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#required-questions">Required Questions</a></li>
+  <ul class="nav nav-stacked">
+    <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#what-would-scheme-display">What Would Scheme Display?</a></li>
+    <ul class="nav nav-stacked">
+      <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#q1">Question 1: WWSD: Lists</a></li>
+    </ul>
+    <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#coding-questions">Coding Questions</a></li>
+    <ul class="nav nav-stacked">
+      <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#q2">Question 2: Over or Under</a></li>
+      <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#q3">Question 3: Filter</a></li>
+      <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#q4">Question 4: Make Adder</a></li>
+    </ul>
+  </ul>
+  <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#optional-questions">Optional Questions</a></li>
+  <ul class="nav nav-stacked">
+    <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#q5">Question 5: Pow</a></li>
+    <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#q6">Question 6: Make a List</a></li>
+    <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#q7">Question 7: Compose</a></li>
+    <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#q8">Question 8: Remove</a></li>
+    <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#q9">Question 9: Greatest Common Divisor</a></li>
+    <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#q10">Question 10: No Repeats</a></li>
+    <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#q11">Question 11: Substitute</a></li>
+    <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa16/lab/lab09/#q12">Question 12: Sub All</a></li>
+  </ul>
+</ul>
+    </nav>
+  </div>
+
+</div>
+
+    </div>
+    
+
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+</script>
+
+<script src="./Lab 09_ Scheme _ CS 61A Fall 2016_files/jquery-latest.js"></script>
+
+<script>
+  $(function() {
+    var staging_domains = ['staging.cs61a.org', 'localhost', '127.0.0.1'];
+
+    var staging = staging_domains.indexOf(window.location.hostname) != -1;
+    var after_due_date = new Date("10/29/2016") < new Date();
+    var release_solutions = staging || after_due_date;
+
+    if (release_solutions) {
+      $('.toggleButton').css('display', 'inline-block');
+      $('.toggleButton').click(function() {
+        var solution_id = $(this).attr('id');
+        $('div.' + solution_id).slideToggle(600);
+      });
+    }
+    // Always display these toggle buttons
+    $('.toggleButton.toggle').css('display', 'inline-block');
+    $('.toggleButton.toggle').click(function() {
+      var solution_id = $(this).attr('id');
+      $('div.' + solution_id).slideToggle(600);
+    });
+  });
+</script>
+
+
+  
+</body></html>
